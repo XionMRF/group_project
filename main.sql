@@ -1,8 +1,8 @@
---- Соц.-демо выполнила Кристина
+--- РЎРѕС†.-РґРµРјРѕ РІС‹РїРѕР»РЅРёР»Р° РљСЂРёСЃС‚РёРЅР°
 WITH soc_demo AS (
 SELECT 
 	cl.client_id,  
-	COALESCE (TO_CHAR (TO_DATE(birth_dt, 'DDMONYYYY:HH24:MI:SS', 'NLS_DATE_LANGUAGE = American')), 'Нет данных') AS birth_dt,
+	COALESCE (TO_CHAR (TO_DATE(birth_dt, 'DDMONYYYY:HH24:MI:SS', 'NLS_DATE_LANGUAGE = American')), 'ГЌГҐГІ Г¤Г Г­Г­Г»Гµ') AS birth_dt,
 	COALESCE (FLOOR (MONTHS_BETWEEN ('2021-12-01',TO_DATE (birth_dt, 'DDMONYYYY:HH24:MI:SS', 'NLS_DATE_LANGUAGE = American'))/12),0) AS age, 
 	COALESCE(cl.region_code,0) AS region_code, ad.region||
 	(CASE 
@@ -76,9 +76,9 @@ SELECT
 		THEN ' '||ad2.town 
 		ELSE '' 
 	END) AS fact_addr,
-	COALESCE(gen.gender_nm,'Нет данных') AS gender_nm, 
-	COALESCE(edu.level_nm,'Нет данных') AS education_level_nm,
-	COALESCE(fam.status_nm,'Нет данных') AS family_status_nm,
+	COALESCE(gen.gender_nm,'ГЌГҐГІ Г¤Г Г­Г­Г»Гµ') AS gender_nm, 
+	COALESCE(edu.level_nm,'ГЌГҐГІ Г¤Г Г­Г­Г»Гµ') AS education_level_nm,
+	COALESCE(fam.status_nm,'ГЌГҐГІ Г¤Г Г­Г­Г»Гµ') AS family_status_nm,
 	COALESCE(cl.fullseniority_year_cnt,0) AS fullseniority_year_cnt,
 	COALESCE(ROUND(cl.fullseniority_year_cnt/
 					FLOOR (MONTHS_BETWEEN ('2021-12-01',
@@ -102,10 +102,10 @@ LEFT JOIN de_common.group_dict_education_level edu
 ON cl.education_level_code = edu.level_code
 LEFT JOIN de_common.group_dict_family_status fam
 ON cl.family_status_code = fam.status_code
-WHERE adt.address_nm = 'Адрес постоянной регистрации' 
-	  AND adt2.address_nm = 'Фактический адрес'
+WHERE adt.address_nm = 'ГЂГ¤Г°ГҐГ± ГЇГ®Г±ГІГ®ГїГ­Г­Г®Г© Г°ГҐГЈГЁГ±ГІГ°Г Г¶ГЁГЁ' 
+	  AND adt2.address_nm = 'Г”Г ГЄГІГЁГ·ГҐГ±ГЄГЁГ© Г Г¤Г°ГҐГ±'
 ),
---- Кредитные заявки выполнил Ильмир
+--- РљСЂРµРґРёС‚РЅС‹Рµ Р·Р°СЏРІРєРё РІС‹РїРѕР»РЅРёР» РР»СЊРјРёСЂ
 credit_app AS (
 SELECT
 		client_id,
@@ -139,7 +139,7 @@ SELECT
     WHERE application_date<'2021-12-01'
     GROUP BY client_id
 ),
---- БКИ и склейку всего кода выполнил Мустафин Рамиль Фаритович 
+--- Р‘РљР Рё СЃРєР»РµР№РєСѓ РІСЃРµРіРѕ РєРѕРґР° РІС‹РїРѕР»РЅРёР» РњСѓСЃС‚Р°С„РёРЅ Р Р°РјРёР»СЊ Р¤Р°СЂРёС‚РѕРІРёС‡ 
 bki AS (
 SELECT
     CLIENT_ID,
@@ -168,32 +168,32 @@ SELECT
                                     MONTHS_BETWEEN (REPORT_DT, TRUNC (TO_DATE (OPEN_DT, 'DDMONYYYY:HH24:MI:SS'),'MONTH')),
                             'X'),
                                     1,1) in ('X', '0', '1') THEN '0'
-            ELSE 'Нет данных'
+            ELSE 'ГЌГҐГІ Г¤Г Г­Г­Г»Гµ'
             END) MAX_CUR_DELQ_BUCKET,
         MAX (CASE 
                 WHEN REGEXP_LIKE (SUBSTR (LPAD (PMT_STRING_84M,
                                                 MONTHS_BETWEEN (REPORT_DT, TRUNC (TO_DATE (OPEN_DT, 'DDMONYYYY:HH24:MI:SS'), 'MONTH')),
                                                     'X'), 
                                         1,3), '[EAF]') THEN '[1-30)'          
-            ELSE 'Нет данных'
+            ELSE 'ГЌГҐГІ Г¤Г Г­Г­Г»Гµ'
             END) AS DELQ_1_30_3M_FLG,
         MAX (CASE 
                 WHEN REGEXP_LIKE (SUBSTR (LPAD (PMT_STRING_84M,
                                                 MONTHS_BETWEEN (REPORT_DT, TRUNC (TO_DATE (OPEN_DT, 'DDMONYYYY:HH24:MI:SS'), 'MONTH')),
                                                     'X'), 
                                         1,6), '[EAF]') THEN '[1-30)'          
-            ELSE 'Нет данных'
+            ELSE 'ГЌГҐГІ Г¤Г Г­Г­Г»Гµ'
             END) AS DELQ_1_30_6M_FLG,
         MAX (CASE 
                 WHEN REGEXP_LIKE (SUBSTR (LPAD (PMT_STRING_84M,
                                                 MONTHS_BETWEEN (REPORT_DT, TRUNC (TO_DATE (OPEN_DT, 'DDMONYYYY:HH24:MI:SS'), 'MONTH')),
                                                     'X'), 
                                         1,3), '[EAF]') THEN '90+'          
-            ELSE 'Нет данных'
+            ELSE 'ГЌГҐГІ Г¤Г Г­Г­Г»Гµ'
             END) AS DELQ_90_12M_FLG,
         MIN (CASE 
             WHEN MONTHS_BETWEEN (REPORT_DT, TRUNC (TO_DATE (OPEN_DT, 'DDMONYYYY:HH24:MI:SS'), 'MONTH')) < 6 THEN 'Y'
-            ELSE 'Нет данных'
+            ELSE 'ГЌГҐГІ Г¤Г Г­Г­Г»Гµ'
             END) AS LAST_AGR_LESS6M_FLG,
         MAX (MONTHS_BETWEEN (REPORT_DT,
                             TRUNC (TO_DATE (OPEN_DT, 'DDMONYYYY:HH24:MI:SS'), 'MONTH'))) AS FIRST_OPEN_AGR_MONTH_CNT,
@@ -214,7 +214,7 @@ SELECT
 FROM DE_COMMON.GROUP_REP_BKI_INFO
 GROUP BY CLIENT_ID
 ),
---- Карточные транзакции выполнил Кирилл
+--- РљР°СЂС‚РѕС‡РЅС‹Рµ С‚СЂР°РЅР·Р°РєС†РёРё РІС‹РїРѕР»РЅРёР» РљРёСЂРёР»Р»
 card_tr AS (
 SELECT client_id,    
 	COALESCE (SUM (CASE 
@@ -363,7 +363,7 @@ FROM de_common.group_fct_transactions
 WHERE oper_result = 'SUCCESS'
 GROUP BY client_id
 ),
---- Зарплатные транзакции выполнил Булат
+--- Р—Р°СЂРїР»Р°С‚РЅС‹Рµ С‚СЂР°РЅР·Р°РєС†РёРё РІС‹РїРѕР»РЅРёР» Р‘СѓР»Р°С‚
 salary_tr AS (
 SELECT
     A.CLIENT_ID,
@@ -459,10 +459,10 @@ SELECT
                 NVL (b.MORTGAGE_6M_FLG, 0) MORTGAGE_6M_FLG,
                 NVL (b.LAST_APP_MONTH_CNT, 0) LAST_APP_MONTH_CNT,
                 NVL (c.MAX_CUR_DELQ_BUCKET, 0) MAX_CUR_DELQ_BUCKET,
-                NVL (c.DELQ_1_30_3M_FLG, 'Нет данных') DELQ_1_30_3M_FLG,
-                NVL (c.DELQ_1_30_6M_FLG, 'Нет данных') DELQ_1_30_6M_FLG,
-                NVL (c.DELQ_90_12M_FLG, 'Нет данных') DELQ_90_12M_FLG,
-                NVL (c.LAST_AGR_LESS6M_FLG, 'Нет данных') LAST_AGR_LESS6M_FLG,
+                NVL (c.DELQ_1_30_3M_FLG, 'ГЌГҐГІ Г¤Г Г­Г­Г»Гµ') DELQ_1_30_3M_FLG,
+                NVL (c.DELQ_1_30_6M_FLG, 'ГЌГҐГІ Г¤Г Г­Г­Г»Гµ') DELQ_1_30_6M_FLG,
+                NVL (c.DELQ_90_12M_FLG, 'ГЌГҐГІ Г¤Г Г­Г­Г»Гµ') DELQ_90_12M_FLG,
+                NVL (c.LAST_AGR_LESS6M_FLG, 'ГЌГҐГІ Г¤Г Г­Г­Г»Гµ') LAST_AGR_LESS6M_FLG,
                 NVL (c.LAST_OPEN_AGR_MONTH_CNT, 0) LAST_OPEN_AGR_MONTH_CNT,
                 NVL (c.FIRST_OPEN_AGR_MONTH_CNT, 0) FIRST_OPEN_AGR_MONTH_CNT,
                 NVL (c.MAX_CLOSE_AGR_NOW_MONTH_CNT, 0) MAX_CLOSE_AGR_NOW_MONTH_CNT,
