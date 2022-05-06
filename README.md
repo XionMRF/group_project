@@ -1,5 +1,5 @@
 # Group_project
-Building a showcase of an sql script
+Building a showcase using sql script
 
 ## Описание задачи
 В рамках группового проекта необходимо сформировать витрину с информацией по клиенту, все показатели должны быть рассчитаны на 1 декабря 2021 года.
